@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>El Santuari de les Arrels | Purah Pad</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            zonai: {
+              bg: '#1a1c23', // Dark stone
+              panel: '#23262f', // Lighter stone
+              green: '#4ade80', // Glowing green
+              cyan: '#22d3ee', // Sheikah cyan
+              gold: '#fbbf24', // Gold borders
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['Fira Code', 'monospace']
+          },
+          backgroundImage: {
+            'zonai-pattern': 'radial-gradient(#4ade8022 1px, transparent 1px)',
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Fira+Code:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden; /* NO window scrolling */
+      background-color: #1a1c23;
+      color: #e2e8f0;
+      background-image: radial-gradient(#4ade8011 1px, transparent 1px);
+      background-size: 20px 20px;
+    }
+
+    /* Custom Scrollbar for internal scrolling */
+    .custom-scroll {
+      overflow-y: auto;
+    }
+    .custom-scroll::-webkit-scrollbar {
+      width: 6px;
+    }
+    .custom-scroll::-webkit-scrollbar-track {
+      background: #1a1c23; 
+    }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background: #4ade80; 
+      border-radius: 10px;
+    }
+
+    /* Purah Pad Glow Effects */
+    .glow-green {
+      box-shadow: 0 0 10px #4ade8044, inset 0 0 5px #4ade8022;
+    }
+    .glow-cyan {
+      box-shadow: 0 0 12px #22d3ee55;
+    }
+    
+    .menu-btn {
+      transition: all 0.3s ease;
+      border: 1px solid transparent;
+    }
+    .menu-btn.active {
+      background: rgba(74, 222, 128, 0.1);
+      border-color: #4ade80;
+      color: #4ade80;
+      text-shadow: 0 0 8px #4ade80;
+    }
+    
+    /* Math visual layout */
+    .math-hidden { opacity: 0.1; }
+    .math-visible { opacity: 1; transition: opacity 0.3s; }
+    .math-focus { color: #22d3ee; text-shadow: 0 0 8px #22d3ee; }
+  </style>
+</head>
+<body class="h-screen w-full flex text-sm sm:text-base font-sans">
+
+  <!-- SIDEBAR (PURAH PAD MENU) -->
+  <aside class="w-64 bg-zonai-panel border-r-2 border-zonai-gold flex flex-col h-full z-20 shadow-[4px_0_15px_rgba(251,191,36,0.1)] shrink-0">
+    <div class="p-6 border-b border-slate-700">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-full border-2 border-zonai-green glow-green flex items-center justify-center font-bold text-zonai-green">√</div>
+        <h1 class="font-extrabold text-lg text-zonai-gold tracking-wider">Purah Pad<br><span class="text-xs text-slate-400">1r ESO Mates</span></h1>
+      </div>
+    </div>
+    
+    <nav class="flex-1 flex flex-col gap-2 p-4 custom-scroll">
+      <button onclick="switchView('v-concept')" id="btn-v-concept" class="menu-btn active w-full text-left px-4 py-3 rounded-xl font-bold flex items-center gap-3">
+        <span class="text-xl">🔋</span> 1. El Poder Zonai
+      </button>
+      <button onclick="switchView('v-tempteig')" id="btn-v-tempteig" class="menu-btn w-full text-left px-4 py-3 rounded-xl font-bold text-slate-400 hover:text-white flex items-center gap-3">
+        <span class="text-xl">⚖️</span> 2. L'Art del Tempteig
+      </button>
+      <button onclick="switchView('v-algorisme')" id="btn-v-algorisme" class="menu-btn w-full text-left px-4 py-3 rounded-xl font-bold text-slate-400 hover:text-white flex items-center gap-3">
+        <span class="text-xl">📜</span> 3. Ritual Algorisme
+      </button>
+      <button onclick="switchView('v-gym')" id="btn-v-gym" class="menu-btn w-full text-left px-4 py-3 rounded-xl font-bold text-slate-400 hover:text-white flex items-center gap-3">
+        <span class="text-xl">⚔️</span> 4. Entrenament
+      </button>
+      <button onclick="switchView('v-quiz')" id="btn-v-quiz" class="menu-btn w-full text-left px-4 py-3 rounded-xl font-bold text-slate-400 hover:text-white flex items-center gap-3">
+        <span class="text-xl">⛩️</span> 5. Santuari Final
+      </button>
+    </nav>
+  </aside>
+
+  <!-- MAIN CONTENT AREA -->
+  <main class="flex-1 h-full custom-scroll relative bg-zonai-bg p-6 sm:p-10">
+
+    <!-- VIEW 1: EL PODER ZONAI (CONCEPT) -->
+    <section id="v-concept" class="view-section h-full flex flex-col">
+      <header class="mb-8">
+        <h2 class="text-3xl font-extrabold text-zonai-cyan mb-2">La Bateria Zonai: El Quadrat Perfecte</h2>
+        <p class="text-slate-400">Una arrel quadrada ens diu quants blocs d'energia té el costat d'una bateria quadrada completa.</p>
+      </header>
+
+      <div class="flex-1 flex flex-col items-center justify-center bg-zonai-panel border border-slate-700 rounded-2xl p-8 glow-green relative">
+        <div class="absolute top-4 right-4 text-xs font-mono text-zonai-gold border border-zonai-gold px-3 py-1 rounded-full">
+          Àrea = <span id="v1-area">25</span> | Arrel = <span id="v1-root">5</span>
+        </div>
+        
+        <div class="w-full max-w-md mb-8">
+          <label class="block text-sm text-slate-400 mb-2">Costat de la bateria (1 a 10):</label>
+          <input type="range" id="v1-slider" min="1" max="10" value="5" oninput="updateGrid()" class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-zonai-green">
+        </div>
+
+        <div id="v1-grid" class="grid gap-1 p-2 bg-slate-900 rounded-lg border-2 border-zonai-green">
+          <!-- Generat per JS -->
+        </div>
+
+        <div class="mt-8 text-center font-mono text-lg space-y-2">
+          <div><span class="text-zonai-green" id="v1-math-pow">5² = 25</span> (Costat al quadrat)</div>
+          <div><span class="text-zonai-cyan" id="v1-math-root">√25 = 5</span> (Arrel quadrada)</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 2: L'ART DEL TEMPTEIG -->
+    <section id="v-tempteig" class="view-section hidden h-full flex flex-col">
+      <header class="mb-8">
+        <h2 class="text-3xl font-extrabold text-zonai-gold mb-2">L'Art del Tempteig</h2>
+        <p class="text-slate-400">Quan l'energia no forma un quadrat perfecte, hem de cercar el quadrat sencer més proper per sota per saber la seva arrel entera.</p>
+      </header>
+
+      <div class="bg-zonai-panel border border-slate-700 rounded-2xl p-8 flex flex-col gap-6">
+        <div class="flex gap-4 max-w-md">
+          <input type="number" id="v2-input" value="40" class="flex-1 bg-slate-900 border border-zonai-cyan text-white p-3 rounded-lg font-mono focus:outline-none focus:border-zonai-green">
+          <button onclick="runTempteig()" class="bg-zonai-cyan text-slate-900 font-bold px-6 py-3 rounded-lg hover:bg-white transition">Analitzar</button>
+        </div>
+
+        <div id="v2-result" class="hidden flex flex-col items-center mt-6">
+          <div class="w-full h-1 bg-slate-700 relative my-12 rounded-full">
+            <!-- Low Square -->
+            <div class="absolute left-0 -top-8 flex flex-col items-center">
+              <div class="w-12 h-12 bg-slate-800 border-2 border-slate-600 rounded-lg flex items-center justify-center font-mono font-bold text-slate-400" id="v2-low-sq">36</div>
+              <div class="text-xs text-slate-500 mt-2 font-mono" id="v2-low-rt">6²</div>
+            </div>
+            <!-- Number -->
+            <div class="absolute left-1/2 -translate-x-1/2 -top-10 flex flex-col items-center z-10">
+              <div class="px-4 py-2 bg-zonai-gold text-slate-900 font-black rounded-lg text-lg glow-cyan" id="v2-num">40</div>
+              <div class="text-xs font-bold text-zonai-cyan mt-2 font-mono" id="v2-num-rt">√40 ≈ 6.32</div>
+            </div>
+            <!-- High Square -->
+            <div class="absolute right-0 -top-8 flex flex-col items-center">
+              <div class="w-12 h-12 bg-slate-800 border-2 border-slate-600 rounded-lg flex items-center justify-center font-mono font-bold text-slate-400" id="v2-high-sq">49</div>
+              <div class="text-xs text-slate-500 mt-2 font-mono" id="v2-high-rt">7²</div>
+            </div>
+          </div>
+
+          <div class="bg-slate-900/50 border border-slate-700 p-6 rounded-xl w-full font-mono text-sm space-y-2" id="v2-explanation">
+            <!-- Text JS -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 3: RITUAL ALGORISME (EL CORE) -->
+    <section id="v-algorisme" class="view-section hidden h-full flex flex-col">
+      <header class="mb-4 shrink-0">
+        <h2 class="text-3xl font-extrabold text-zonai-green mb-2">Ritual de l'Algorisme</h2>
+        <p class="text-slate-400">Aprèn l'art antic de l'arrel quadrada a mà (exemple de Barcanova: 105674).</p>
+      </header>
+
+      <div class="flex-1 flex flex-col lg:flex-row gap-6 min-h-0">
+        
+        <!-- VISUAL MATH BOARD -->
+        <div class="flex-1 bg-[#12141a] border border-slate-700 rounded-2xl p-6 overflow-x-auto flex justify-center items-center font-mono text-xl sm:text-2xl relative shadow-inner">
+          <div class="flex text-white">
+            
+            <!-- Left Side (Radicand & Subs) -->
+            <div class="flex flex-col text-right pr-4">
+              <!-- El Radicand principal amb la línia de l'arrel -->
+              <div class="border-t-2 border-l-2 border-zonai-cyan px-2 pt-1 pb-1 relative min-w-[150px]">
+                 <span id="m-radicand">10.56.74</span>
+              </div>
+              <div id="m-sub1" class="text-rose-400 math-hidden"> - 9</div>
+              <div id="m-line1" class="border-t border-slate-600 math-hidden"> 1 56</div>
+              <div id="m-sub2" class="text-rose-400 math-hidden">-1 24</div>
+              <div id="m-line2" class="border-t border-slate-600 math-hidden">   32 74</div>
+              <div id="m-sub3" class="text-rose-400 math-hidden"> -32 25</div>
+              <div id="m-line3" class="border-t border-slate-600 text-zonai-green math-hidden">     49</div>
+            </div>
+
+            <!-- Right Side (Root & Aux calculations) -->
+            <div class="flex flex-col border-l-2 border-zonai-cyan min-w-[200px]">
+              <div id="m-root" class="border-b-2 border-zonai-cyan px-4 py-1 text-zonai-gold font-bold math-hidden min-h-[44px]">
+                325
+              </div>
+              <div id="m-aux1" class="border-b border-slate-600 px-4 py-2 text-sm text-slate-400 math-hidden">
+                3 × 3 = 9
+              </div>
+              <div id="m-aux2" class="border-b border-slate-600 px-4 py-2 text-sm text-slate-400 math-hidden">
+                6<span class="text-zonai-cyan">2</span> × <span class="text-zonai-cyan">2</span> = 124
+              </div>
+              <div id="m-aux3" class="border-b border-slate-600 px-4 py-2 text-sm text-slate-400 math-hidden">
+                64<span class="text-zonai-cyan">5</span> × <span class="text-zonai-cyan">5</span> = 3225
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- EXPLANATION & CONTROLS -->
+        <div class="w-full lg:w-96 bg-zonai-panel border border-slate-700 rounded-2xl p-6 flex flex-col shrink-0">
+          <div class="flex justify-between items-center mb-4">
+            <span class="text-zonai-gold font-bold text-xs uppercase tracking-widest">Pas <span id="v3-step-num">0</span>/13</span>
+          </div>
+          
+          <div class="flex-1">
+            <p id="v3-explanation" class="text-sm leading-relaxed text-slate-300">
+              <!-- JS Injected Text -->
+            </p>
+          </div>
+
+          <div class="flex justify-between items-center mt-6 pt-4 border-t border-slate-700">
+            <button onclick="algoPrev()" id="v3-btn-prev" class="px-4 py-2 rounded bg-slate-800 text-slate-400 hover:text-white disabled:opacity-50">Anterior</button>
+            <button onclick="algoNext()" id="v3-btn-next" class="px-4 py-2 rounded bg-zonai-green text-slate-900 font-bold hover:bg-white shadow-[0_0_10px_#4ade80]">Següent</button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- VIEW 4: TERRENY D'ENTRENAMENT (GYM) -->
+    <section id="v-gym" class="view-section hidden h-full flex flex-col">
+      <header class="mb-6 shrink-0">
+        <h2 class="text-3xl font-extrabold text-white mb-2">Terreny d'Entrenament</h2>
+        <p class="text-slate-400">15 missions per dominar l'art de l'arrel. Resol i revela la saviesa Sheikah.</p>
+      </header>
+
+      <div class="flex-1 custom-scroll pr-4">
+        <!-- Rendered by JS -->
+        <div id="gym-container" class="space-y-8 pb-10"></div>
+      </div>
+    </section>
+
+    <!-- VIEW 5: SANTUARI FINAL (QUIZ) -->
+    <section id="v-quiz" class="view-section hidden h-full flex flex-col">
+      <header class="mb-6 shrink-0">
+        <h2 class="text-3xl font-extrabold text-zonai-cyan mb-2">Santuari de la Saviesa</h2>
+        <p class="text-slate-400">Demostra el que has après per obtenir l'Orbe de Llum (10 preguntes).</p>
+      </header>
+
+      <div id="quiz-container" class="flex-1 bg-zonai-panel border border-slate-700 rounded-2xl p-8 flex flex-col justify-center max-w-2xl mx-auto w-full">
+        <!-- JS rendered -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- JAVASCRIPT -->
+  <script>
+    // --- 1. NAVIGATION ---
+    function switchView(viewId) {
+      document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
+      document.getElementById(viewId).classList.remove('hidden');
+      
+      document.querySelectorAll('.menu-btn').forEach(btn => {
+        btn.classList.remove('active', 'glow-green');
+        btn.classList.add('text-slate-400');
+      });
+      const activeBtn = document.getElementById('btn-' + viewId);
+      activeBtn.classList.add('active', 'glow-green');
+      activeBtn.classList.remove('text-slate-400');
+    }
+
+    // --- 2. VIEW 1: PODER ZONAI ---
+    function updateGrid() {
+      const val = parseInt(document.getElementById('v1-slider').value);
+      const grid = document.getElementById('v1-grid');
+      
+      document.getElementById('v1-area').textContent = val * val;
+      document.getElementById('v1-root').textContent = val;
+      document.getElementById('v1-math-pow').textContent = `${val}² = ${val * val}`;
+      document.getElementById('v1-math-root').textContent = `√${val * val} = ${val}`;
+
+      grid.style.gridTemplateColumns = `repeat(${val}, minmax(0, 1fr))`;
+      
+      let html = '';
+      for (let i = 0; i < val * val; i++) {
+        html += `<div class="w-6 h-6 bg-zonai-green/80 rounded-[4px] shadow-[0_0_5px_#4ade80] border border-zonai-green/50"></div>`;
+      }
+      grid.innerHTML = html;
+    }
+    updateGrid();
+
+    // --- 3. VIEW 2: TEMPTEIG ---
+    function runTempteig() {
+      const val = parseInt(document.getElementById('v2-input').value);
+      if (isNaN(val) || val <= 0) return;
+
+      document.getElementById('v2-result').classList.remove('hidden');
+      const rootF = Math.floor(Math.sqrt(val));
+      const rootC = rootF + 1;
+      const qLow = rootF * rootF;
+      const qHigh = rootC * rootC;
+      const rem = val - qLow;
+
+      document.getElementById('v2-low-sq').textContent = qLow;
+      document.getElementById('v2-low-rt').textContent = `${rootF}²`;
+      document.getElementById('v2-num').textContent = val;
+      document.getElementById('v2-num-rt').textContent = `√${val} ≈ ${Math.sqrt(val).toFixed(2)}`;
+      document.getElementById('v2-high-sq').textContent = qHigh;
+      document.getElementById('v2-high-rt').textContent = `${rootC}²`;
+
+      let text = `<div class="text-zonai-cyan font-bold mb-2">Comprovació de veïns: ${qLow} < ${val} < ${qHigh}</div>`;
+      if(val === qLow) {
+        text = `<div class="text-zonai-green font-bold text-lg mb-2">Arrel Exacta!</div>
+                La bateria té una forma perfectament quadrada de costat ${rootF}.`;
+      } else {
+        text += `<p>L'arrel entera (el quadrat complert més proper per sota) és <strong>${rootF}</strong>.</p>
+                 <p class="mt-2 text-zonai-gold">Residu = ${val} - ${qLow} = <strong>${rem}</strong></p>
+                 <p class="mt-1 text-slate-500 text-xs">Prova: ${rootF}² + ${rem} = ${val}</p>`;
+      }
+      document.getElementById('v2-explanation').innerHTML = text;
+    }
+
+    // --- 4. VIEW 3: ALGORISME (STATE MACHINE) ---
+    // Total steps: 13 (0 to 13)
+    let currentStep = 0;
+    const algoStates = [
+      { // 0
+        text: "Tenim el nombre 105674. El primer pas és separar les xifres de dues en dues començant per la dreta. Ens queden els grups: <span class='text-zonai-cyan'>10 . 56 . 74</span>.",
+        ui: { rad: "10.56.74", r: "", s1:"", l1:"", s2:"", l2:"", s3:"", l3:"", a1:"", a2:"", a3:"" }
+      },
+      { // 1
+        text: "Mirem el primer grup de l'esquerra (10). Quin nombre al quadrat s'hi acosta sense passar-se? És el 3 (3² = 9). Escrivim 3 a la caixa de l'arrel i l'operació auxiliar a sota.",
+        ui: { rad: "10.56.74", r: "3", s1:"", l1:"", s2:"", l2:"", s3:"", l3:"", a1:"v", a2:"", a3:"" }
+      },
+      { // 2
+        text: "Restem aquest 9 al primer grup (10).<br><br>10 - 9 = <span class='text-zonai-cyan'>1</span>.",
+        ui: { rad: "10.56.74", r: "3", s1:"v", l1:" 1", s2:"", l2:"", s3:"", l3:"", a1:"v", a2:"", a3:"" }
+      },
+      { // 3
+        text: "Baixem el següent grup de dues xifres (56). Ara el nostre nombre temporal és <span class='text-zonai-cyan'>156</span>.",
+        ui: { rad: "10.56.74", r: "3", s1:"v", l1:" 1 56", s2:"", l2:"", s3:"", l3:"", a1:"v", a2:"", a3:"" }
+      },
+      { // 4
+        text: "Tracem una línia auxiliar. Hi escrivim el DOBLE del que tenim a l'arrel principal.<br><br>Com que tenim un 3, el doble és <span class='text-zonai-cyan'>3 × 2 = 6</span>.",
+        ui: { rad: "10.56.74", r: "3", s1:"v", l1:" 1 56", s2:"", l2:"", s3:"", l3:"", a1:"v", a2:"6_ × _ = ?", a3:"" }
+      },
+      { // 5
+        text: "Hem de buscar una xifra 'c' (per formar seixanta-i-alguna-cosa) que, multiplicada per ella mateixa, s'acosti a 156.<br><br>Provem amb el 2: <span class='text-zonai-cyan'>62 × 2 = 124</span>. Perfecte!",
+        ui: { rad: "10.56.74", r: "3", s1:"v", l1:" 1 56", s2:"", l2:"", s3:"", l3:"", a1:"v", a2:"v", a3:"" }
+      },
+      { // 6
+        text: "Restem aquest 124 al nostre 156.<br><br>156 - 124 = <span class='text-zonai-cyan'>32</span>.",
+        ui: { rad: "10.56.74", r: "3", s1:"v", l1:" 1 56", s2:"v", l2:"   32", s3:"", l3:"", a1:"v", a2:"v", a3:"" }
+      },
+      { // 7
+        text: "Pugem la xifra que ens ha funcionat (el 2) a la caixa principal de l'arrel.<br><br>Ara portem <span class='text-zonai-gold'>32</span>.",
+        ui: { rad: "10.56.74", r: "32", s1:"v", l1:" 1 56", s2:"v", l2:"   32", s3:"", l3:"", a1:"v", a2:"v", a3:"" }
+      },
+      { // 8
+        text: "Baixem el darrer grup (74). El nostre nou objectiu és el nombre <span class='text-zonai-cyan'>3274</span>.",
+        ui: { rad: "10.56.74", r: "32", s1:"v", l1:" 1 56", s2:"v", l2:"   32 74", s3:"", l3:"", a1:"v", a2:"v", a3:"" }
+      },
+      { // 9
+        text: "Tornem a posar el DOBLE del que tenim a l'arrel.<br><br>El doble de 32 és <span class='text-zonai-cyan'>64</span>.",
+        ui: { rad: "10.56.74", r: "32", s1:"v", l1:" 1 56", s2:"v", l2:"   32 74", s3:"", l3:"", a1:"v", a2:"v", a3:"64_ × _ = ?" }
+      },
+      { // 10
+        text: "Busquem una xifra per a que 64_ × _ s'acosti a 3274.<br><br>Provem amb el 5: <span class='text-zonai-cyan'>645 × 5 = 3225</span>. Ens encaixa molt bé!",
+        ui: { rad: "10.56.74", r: "32", s1:"v", l1:" 1 56", s2:"v", l2:"   32 74", s3:"", l3:"", a1:"v", a2:"v", a3:"v" }
+      },
+      { // 11
+        text: "Restem el resultat (3225) de 3274.<br><br>3274 - 3225 = <span class='text-zonai-green font-bold'>49</span>. Aquest és el nostre Residu final.",
+        ui: { rad: "10.56.74", r: "32", s1:"v", l1:" 1 56", s2:"v", l2:"   32 74", s3:"v", l3:"     49", a1:"v", a2:"v", a3:"v" }
+      },
+      { // 12
+        text: "Pugem el 5 a l'arrel. I ja hem acabat l'algorisme!<br><br>L'arrel entera és <span class='text-zonai-gold font-bold'>325</span> i el residu és <span class='text-zonai-green font-bold'>49</span>.",
+        ui: { rad: "10.56.74", r: "325", s1:"v", l1:" 1 56", s2:"v", l2:"   32 74", s3:"v", l3:"     49", a1:"v", a2:"v", a3:"v" }
+      },
+      { // 13
+        text: "Prova de seguretat (pàg. 23 Barcanova):<br><br><span class='font-mono'>Arrel² + Residu = Radicand<br>325² + 49 = 105625 + 49 = 105674 ✓</span>",
+        ui: { rad: "10.56.74", r: "325", s1:"v", l1:" 1 56", s2:"v", l2:"   32 74", s3:"v", l3:"     49", a1:"v", a2:"v", a3:"v" }
+      }
+    ];
+
+    function applyAlgoState(s) {
+      document.getElementById('m-radicand').innerHTML = s.rad;
+      
+      const elR = document.getElementById('m-root');
+      if(s.r) { elR.innerHTML = s.r; elR.classList.replace('math-hidden', 'math-visible'); } 
+      else { elR.classList.replace('math-visible', 'math-hidden'); }
+
+      const applyVis = (id, val) => {
+        const el = document.getElementById(id);
+        if(!val) el.classList.replace('math-visible', 'math-hidden');
+        else {
+          el.classList.replace('math-hidden', 'math-visible');
+          if(val !== 'v') el.innerHTML = val;
+        }
+      }
+
+      applyVis('m-sub1', s.s1); applyVis('m-line1', s.l1);
+      applyVis('m-sub2', s.s2); applyVis('m-line2', s.l2);
+      applyVis('m-sub3', s.s3); applyVis('m-line3', s.l3);
+      
+      const auxVal2 = s.a2 === 'v' ? '6<span class="text-zonai-cyan">2</span> × <span class="text-zonai-cyan">2</span> = 124' : s.a2;
+      const auxVal3 = s.a3 === 'v' ? '64<span class="text-zonai-cyan">5</span> × <span class="text-zonai-cyan">5</span> = 3225' : s.a3;
+      
+      applyVis('m-aux1', s.a1); 
+      applyVis('m-aux2', auxVal2); 
+      applyVis('m-aux3', auxVal3);
+    }
+
+    function renderAlgo() {
+      document.getElementById('v3-step-num').textContent = currentStep;
+      document.getElementById('v3-explanation').innerHTML = algoStates[currentStep].text;
+      
+      document.getElementById('v3-btn-prev').disabled = (currentStep === 0);
+      
+      const nextBtn = document.getElementById('v3-btn-next');
+      if (currentStep === algoStates.length - 1) {
+        nextBtn.textContent = "Finalitzat";
+        nextBtn.disabled = true;
+        nextBtn.classList.remove('glow-green');
+      } else {
+        nextBtn.textContent = "Següent";
+        nextBtn.disabled = false;
+        nextBtn.classList.add('glow-green');
+      }
+
+      applyAlgoState(algoStates[currentStep].ui);
+    }
+
+    function algoNext() { if(currentStep < algoStates.length -1) { currentStep++; renderAlgo(); } }
+    function algoPrev() { if(currentStep > 0) { currentStep--; renderAlgo(); } }
+
+    // --- 5. VIEW 4: GYM (15 EXERCISES) ---
+    const gymTasks = [
+      { cat: "Càlcul ràpid", q: "√64 Rupies", a: "8 Rupies (8² = 64)" },
+      { cat: "Càlcul ràpid", q: "√100 Llavors Kolog", a: "10 Llavors (10² = 100)" },
+      { cat: "Càlcul ràpid", q: "√144 Fletxes", a: "12 Fletxes (12² = 144)" },
+      { cat: "Càlcul ràpid", q: "√(25 · 4)", a: "Propietat: √100 = 10. (O √25 · √4 = 5 · 2 = 10)" },
+      { cat: "Càlcul ràpid", q: "Quina és la gran trampa? √(16 + 9) = ?", a: "Cura! √(25) = 5. (NO és 4 + 3 = 7)" },
+      
+      { cat: "Tempteig (Entrenament)", q: "Arrel entera de 50", a: "L'arrel entera és 7 (7²=49). Residu = 1." },
+      { cat: "Tempteig (Entrenament)", q: "Arrel entera de 130", a: "L'arrel entera és 11 (11²=121). Residu = 9." },
+      { cat: "Tempteig (Entrenament)", q: "Si l'arrel entera de 'X' és 5 i el residu és 4, qui és 'X'?", a: "Prova: 5² + 4 = 25 + 4 = 29." },
+      { cat: "Tempteig (Entrenament)", q: "Si en Link té 20 flors silencioses, quantes posa de costat per fer el quadrat més gran?", a: "4 flors de costat (16 en total). Li'n sobren 4." },
+      { cat: "Tempteig (Entrenament)", q: "Quin és el quadrat més proper a 80?", a: "81 (que és 9²). Però l'arrel entera de 80 és 8 (64)." },
+
+      { cat: "Problemes Èpics", q: "El Rei Rauru vol enrajolar un terra quadrat amb 225 rajoles Zonai. Quantes rajoles posarà a cada costat?", a: "√225 = 15 rajoles a cada costat." },
+      { cat: "Problemes Èpics", q: "Per tancar un campament quadrat de monstres que mesura 400 m² d'àrea, quants metres de tanca empalissada fan falta?", a: "Costat = √400 = 20 m. Perímetre (4 costats) = 20 · 4 = 80 metres." },
+      { cat: "Problemes Èpics", q: "Un exèrcit de 150 Bokoblins es vol posar en formació quadrada. Quants en formaran el quadrat màxim i quants quedaran fora (residu)?", a: "Arrel entera: 12 (144). Entraran 144 al quadrat. Queden fora 6 Bokoblins." },
+      { cat: "Problemes Èpics", q: "La Purah té cubs de cristall. Ha format un gran quadrat a terra fent servir tots els seus cubs. Si al voltant d'un costat hi ha 13 cubs, quants en té en total?", a: "Si l'arrel és 13, l'àrea és 13² = 169 cubs." },
+      { cat: "Problemes Èpics", q: "L'escut Hylià està decorat amb una trama geomètrica. Calculeu l'expressió combinada: (√81)² + √64", a: "(√81)² s'anul·la i dóna 81. + √64 (que és 8). Resultat: 81 + 8 = 89." },
+    ];
+
+    function renderGym() {
+      let html = '';
+      let currentCat = '';
+      gymTasks.forEach((t, i) => {
+        if(t.cat !== currentCat) {
+          html += `<h3 class="text-xl font-bold text-zonai-gold mt-6 mb-3 border-b border-slate-700 pb-2">${t.cat}</h3>`;
+          currentCat = t.cat;
+        }
+        html += `
+          <div class="bg-zonai-panel p-4 rounded-xl border border-slate-700 mb-3 flex flex-col sm:flex-row justify-between sm:items-center gap-4 hover:border-zonai-green transition">
+            <p class="text-sm font-semibold">${t.q}</p>
+            <button onclick="toggleGymSol(${i})" class="shrink-0 text-xs px-3 py-1 border border-zonai-cyan text-zonai-cyan hover:bg-zonai-cyan hover:text-slate-900 rounded">Veure Solució</button>
+          </div>
+          <div id="gym-sol-${i}" class="hidden p-3 bg-slate-800 rounded-lg text-sm text-zonai-green font-mono mb-4 border-l-4 border-zonai-green">
+            ${t.a}
+          </div>
+        `;
+      });
+      document.getElementById('gym-container').innerHTML = html;
+    }
+
+    function toggleGymSol(i) {
+      document.getElementById('gym-sol-' + i).classList.toggle('hidden');
+    }
+
+    // --- 6. VIEW 5: QUIZ ---
+    const quizQs = [
+      { q: "Quina és l'operació matemàtica inversa a elevar al quadrat?", a: "L'arrel quadrada", opts: ["L'arrel quadrada", "La divisió entera", "El cub"] },
+      { q: "Si (√X)² = 14, quant val X?", a: "14", opts: ["196", "14", "7"] },
+      { q: "Quant és √81?", a: "9", opts: ["8", "9", "10"] },
+      { q: "Si el residu d'una arrel entera és 0, diem que l'arrel és...", a: "Exacta", opts: ["Aproximada", "Infinita", "Exacta"] },
+      { q: "Quina regla és FALSA?", a: "√(A + B) = √A + √B", opts: ["√(A · B) = √A · √B", "√(A + B) = √A + √B", "(√A)² = A"] },
+      { q: "Si 12² = 144, entre quins quadrats es troba el nombre 150?", a: "Entre 144 i 169", opts: ["Entre 144 i 169", "Entre 12 i 13", "Entre 100 i 144"] },
+      { q: "Quants nombres s'agafen a cada pas (de dreta a esquerra) en l'algorisme a mà?", a: "2", opts: ["1", "2", "3"] },
+      { q: "Un quadrat de 400m² necessita tanca. Quant mesura UN costat?", a: "20 m", opts: ["40 m", "20 m", "200 m"] },
+      { q: "Quina línia auxiliar fem a l'algorisme de l'arrel per continuar?", a: "El doble de l'arrel actual", opts: ["La meitat del residu", "El doble de l'arrel actual", "El quadrat de l'arrel"] },
+      { q: "Prova de l'arrel entera: Arrel² + Residu =", a: "Radicand", opts: ["Radicand", "Zero", "100"] }
+    ];
+    let quizScore = 0;
+    let quizAns = Array(10).fill(null);
+
+    function renderQuiz() {
+      let html = `<div class="space-y-8" id="quiz-list">`;
+      quizQs.forEach((q, i) => {
+        html += `<div class="space-y-3">
+          <p class="font-bold text-lg"><span class="text-zonai-cyan">${i+1}.</span> ${q.q}</p>
+          <div class="flex flex-col gap-2">
+            ${q.opts.map((opt, j) => `
+              <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-700 bg-slate-900 cursor-pointer hover:border-zonai-cyan transition">
+                <input type="radio" name="q${i}" value="${opt}" onchange="markAns(${i}, '${opt}')" class="accent-zonai-cyan w-4 h-4">
+                <span class="text-sm">${opt}</span>
+              </label>
+            `).join('')}
+          </div>
+        </div>`;
+      });
+      html += `</div>
+        <button onclick="checkQuiz()" class="mt-10 w-full py-4 bg-zonai-gold text-slate-900 font-extrabold text-xl rounded-xl hover:bg-white transition shadow-[0_0_15px_#fbbf24]">Validar Respostes Al Santuari</button>
+        <div id="quiz-result" class="hidden mt-6 p-6 border-2 border-zonai-green rounded-xl text-center glow-green">
+          <div class="text-4xl mb-2 font-bold text-white">Resultat: <span id="quiz-score" class="text-zonai-green">0</span>/10</div>
+          <p id="quiz-msg" class="text-slate-300"></p>
+        </div>
+      `;
+      document.getElementById('quiz-container').innerHTML = html;
+    }
+
+    function markAns(i, val) { quizAns[i] = val; }
+
+    function checkQuiz() {
+      quizScore = 0;
+      quizAns.forEach((ans, i) => {
+        if(ans === quizQs[i].a) quizScore++;
+      });
+      document.getElementById('quiz-result').classList.remove('hidden');
+      document.getElementById('quiz-score').textContent = quizScore;
+      let msg = "";
+      if(quizScore === 10) msg = "Heroi d'Hyrule! Ets un Mestre Absolut de les Arrels.";
+      else if(quizScore >= 7) msg = "Molt bé! La benedicció de Rauru t'acompanya.";
+      else if(quizScore >= 5) msg = "Has superat la prova, però pots millorar el teu poder.";
+      else msg = "El miasma et debilita... Repassa els llibres de la Purah i torna-ho a provar.";
+      document.getElementById('quiz-msg').textContent = msg;
+    }
+
+    // --- INITIALIZE ---
+    renderAlgo();
+    renderGym();
+    renderQuiz();
+
+  </script>
+</body>
+</html>
